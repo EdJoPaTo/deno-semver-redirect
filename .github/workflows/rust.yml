@@ -131,13 +131,13 @@ jobs:
         if: runner.os != 'Windows'
         run: |
           cd target/${{ matrix.triple }}/release
-          tar -czvf ../../../mqttui-${{ matrix.triple }}.tar.gz mqttui
+          tar -czvf ../../../deno-semver-redirect-${{ matrix.triple }}.tar.gz deno-semver-redirect
           cd -
       - name: Pack release (windows)
         if: runner.os == 'Windows'
         run: |
           cd target/${{ matrix.triple }}/release
-          7z a ../../../mqttui-${{ matrix.triple }}.zip mqttui.exe
+          7z a ../../../deno-semver-redirect-${{ matrix.triple }}.zip deno-semver-redirect.exe
           cd -
 
       - name: Upload Artifact
