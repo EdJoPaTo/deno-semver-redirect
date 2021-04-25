@@ -64,7 +64,10 @@ async fn deno_redirect(req: Request<()>) -> tide::Result<Redirect<String>> {
             )
         })?;
 
-    let url = format!("https://deno.land/x/{}@{}/{}", package, matching_version, path);
+    let url = format!(
+        "https://deno.land/x/{}@{}/{}",
+        package, matching_version, path
+    );
     println!("{} -> {}", meta, url);
     Ok(Redirect::temporary(url))
 }

@@ -9,9 +9,12 @@ pub struct Versions {
 }
 
 pub fn get_existing_versions(package_name: &str) -> Result<Versions> {
-    let body = ureq::get(&format!("https://cdn.deno.land/{}/meta/versions.json", package_name))
-        .call()?
-        .into_string()?;
+    let body = ureq::get(&format!(
+        "https://cdn.deno.land/{}/meta/versions.json",
+        package_name
+    ))
+    .call()?
+    .into_string()?;
     let versions = serde_json::from_str::<Versions>(&body)?;
 
     Ok(versions)
