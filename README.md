@@ -5,3 +5,6 @@
 
 Redirect Deno dependencies from semantic versions to the newest fitting version on [deno.land/x](https://deno.land/x).
 See also this [Deno Issue](https://github.com/denoland/deno_website2/issues/606).
+
+For the requested versions the [semver crate](https://crates.io/crates/semver) is used.
+Check its Readme for "Requirements" on what it supports.
