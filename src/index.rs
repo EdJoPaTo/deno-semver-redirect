@@ -53,7 +53,7 @@ Try the following urls:<br />
 <footer>
 <p>
 <a href="https://github.com/EdJoPaTo/deno-semver-redirect/">Source Code</a><br />
-<a href="https://github.com/EdJoPaTo/deno-semver-redirect/LICENSE">LICENSE (AGPL 3.0 or later)</a><br />
+<a href="https://github.com/EdJoPaTo/deno-semver-redirect/blob/main/LICENSE">LICENSE (AGPL 3.0 or later)</a><br />
 Created by <a href="https://edjopato.de/">EdJoPaTo</a>
 </p>
 </footer>
