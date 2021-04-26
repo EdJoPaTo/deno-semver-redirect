@@ -6,7 +6,6 @@ use tide::utils::After;
 use tide::{Redirect, Request, Response, StatusCode};
 
 mod deno_land;
-mod index;
 
 #[cfg(debug_assertions)]
 const LISTENER: &str = "localhost:8080";
@@ -30,7 +29,7 @@ async fn main() -> tide::Result<()> {
     app.at("/:package/:version/*path").get(deno_redirect);
     app.at("/").get(|_| async {
         Ok(Response::builder(200)
-            .body(index::INDEX_HTML)
+            .body(include_str!("index.html"))
             .content_type(mime::HTML)
             .build())
     });
