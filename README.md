@@ -14,6 +14,6 @@ Check its README for "Requirements" on what it supports.
 Just change the import URL in your Deno Sources:
 
 ```diff
--import { Bot } from 'https://deno.land/x/grammy@0.3.1/mod.ts'
+-import { Bot } from 'https://deno.land/x/grammy@v0.3.1/mod.ts'
 +import { Bot } from 'https://dsr.edjopato.de/grammy/0.3/mod.ts'
 ```
