@@ -31,7 +31,7 @@ pub fn get_first_matching_version(
         let version = Version::parse(raw_version)?;
 
         if target_version_range.matches(&version) {
-            return Ok(version_str.to_owned());
+            return Ok(version_str);
         }
     }
 
