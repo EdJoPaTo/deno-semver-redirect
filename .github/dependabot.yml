@@ -5,14 +5,9 @@ version: 2
 updates:
   - package-ecosystem: "cargo"
     directory: "/"
+    open-pull-requests-limit: 30
     schedule:
       interval: "monthly"
+      time: "03:37" # UTC
     commit-message:
       prefix: "chore(cargo):"
-
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "monthly"
-    commit-message:
-      prefix: "ci(actions):"
