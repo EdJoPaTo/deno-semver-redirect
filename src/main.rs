@@ -37,6 +37,7 @@ async fn main() -> tide::Result<()> {
         Ok(Response::builder(200)
             .body(include_str!("index.html"))
             .content_type(mime::HTML)
+            .header("Content-Security-Policy", "frame-ancestors 'none';base-uri 'none';form-action 'none';default-src 'none';style-src 'self'")
             .build())
     });
 
