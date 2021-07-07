@@ -27,6 +27,12 @@ async fn main() -> tide::Result<()> {
     }));
 
     app.at("/:package/:version/*path").get(deno_redirect);
+    app.at("/index.css").get(|_| async {
+        Ok(Response::builder(200)
+            .body(include_str!("index.css"))
+            .content_type(mime::CSS)
+            .build())
+    });
     app.at("/").get(|_| async {
         Ok(Response::builder(200)
             .body(include_str!("index.html"))
