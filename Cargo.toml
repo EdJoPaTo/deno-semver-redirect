@@ -1,7 +1,7 @@
 [package]
 name = "deno-semver-redirect"
 description = "Redirect Deno dependencies from semantic versions to the newest fitting version on deno.land/x"
-version = "0.1.2"
+version = "1.0.0"
 license = "AGPL-3.0-or-later"
 authors = ["EdJoPaTo <deno-semver-redirect@edjopato.de>"]
 edition = "2018"
