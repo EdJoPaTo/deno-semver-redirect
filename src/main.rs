@@ -46,6 +46,7 @@ async fn main() -> tide::Result<()> {
     Ok(())
 }
 
+#[allow(clippy::unused_async)]
 async fn deno_redirect(req: Request<()>) -> tide::Result<Redirect<String>> {
     let package = req.param("package")?;
     let version = percent_decode_str(req.param("version")?).decode_utf8()?;
