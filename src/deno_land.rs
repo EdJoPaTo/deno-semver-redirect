@@ -37,3 +37,9 @@ pub fn get_first_matching_version(
 
     Err(anyhow!("found no matching version"))
 }
+
+#[test]
+fn first_matching_works_for_grammy_example() {
+    let result = get_first_matching_version("grammy", &VersionReq::parse("0.3").unwrap()).unwrap();
+    assert_eq!(result, "v0.3.4");
+}
