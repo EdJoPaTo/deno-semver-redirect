@@ -2,6 +2,14 @@ use anyhow::{anyhow, Result};
 use semver::{Version, VersionReq};
 use serde::Deserialize;
 
+const USER_AGENT: &str = concat!(
+    env!("CARGO_PKG_NAME"),
+    "/",
+    env!("CARGO_PKG_VERSION"),
+    " ",
+    env!("CARGO_PKG_REPOSITORY"),
+);
+
 #[derive(Debug, Deserialize)]
 pub struct Versions {
     pub latest: String,
@@ -13,6 +21,7 @@ pub fn get_existing_versions(package_name: &str) -> Result<Versions> {
         "https://cdn.deno.land/{}/meta/versions.json",
         package_name
     ))
+    .set("User-Agent", USER_AGENT)
     .call()?
     .into_string()?;
     let versions = serde_json::from_str::<Versions>(&body)?;
