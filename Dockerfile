@@ -9,13 +9,14 @@ RUN apt-get update \
 RUN mkdir -p src && echo "fn main() {}" > src/main.rs
 
 COPY Cargo.toml Cargo.lock ./
-RUN cargo build --release --locked
+RUN cargo fetch --locked
+RUN cargo build --release --frozen --offline
 
 # We need to touch our real main.rs file or the cached one will be used.
 COPY . ./
 RUN touch src/main.rs
 
-RUN cargo build --release --locked
+RUN cargo build --release --frozen --offline
 
 
 # Start building the final image
