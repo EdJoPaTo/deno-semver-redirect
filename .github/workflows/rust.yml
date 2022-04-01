@@ -18,9 +18,9 @@ jobs:
         toolchain:
           - stable
         os:
-          - ubuntu-latest
+          - ubuntu-20.04
           - macos-11
-          - windows-latest
+          - windows-2022
         clippyargs:
           - -D clippy::pedantic -D warnings
         features:
@@ -28,11 +28,11 @@ jobs:
         include:
           # Check future versions and maybe get some glances on soon to be lints
           - toolchain: beta
-            os: ubuntu-latest
+            os: ubuntu-20.04
             features: --all-features
             clippyargs: -W clippy::pedantic -W clippy::nursery
           - toolchain: nightly
-            os: ubuntu-latest
+            os: ubuntu-20.04
             features: --all-features
             clippyargs: -W clippy::pedantic
     steps:
@@ -79,13 +79,13 @@ jobs:
       matrix:
         include:
           - triple: x86_64-unknown-linux-gnu
-            os: ubuntu-latest
-          - triple: arm-unknown-linux-gnueabihf
-            os: ubuntu-latest
-          - triple: armv7-unknown-linux-gnueabihf
-            os: ubuntu-latest
+            os: ubuntu-20.04
           - triple: aarch64-unknown-linux-gnu
-            os: ubuntu-latest
+            os: ubuntu-20.04
+          - triple: armv7-unknown-linux-gnueabihf
+            os: ubuntu-20.04
+          - triple: arm-unknown-linux-gnueabihf
+            os: ubuntu-20.04
 
           - triple: x86_64-apple-darwin
             os: macos-11
@@ -93,10 +93,10 @@ jobs:
             os: macos-11
 
           - triple: x86_64-pc-windows-msvc
-            os: windows-latest
+            os: windows-2022
           # https://github.com/briansmith/ring/issues/1167
           # - triple: aarch64-pc-windows-msvc
-          #   os: windows-latest
+          #   os: windows-2022
     steps:
       - name: Setup Rust
         uses: actions-rs/toolchain@v1
