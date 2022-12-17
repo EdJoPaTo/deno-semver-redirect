@@ -19,7 +19,7 @@ async fn main() -> tide::Result<()> {
 
     app.with(After(|mut res: Response| async {
         if let Some(err) = res.error() {
-            let msg = format!("Error: {:?}", err);
+            let msg = format!("Error: {err:?}");
             // NOTE: You may want to avoid sending error messages in a production server.
             res.set_body(msg);
         }
@@ -52,10 +52,10 @@ async fn deno_redirect(req: Request<()>) -> tide::Result<Redirect<String>> {
     let version = percent_decode_str(req.param("version")?).decode_utf8()?;
     let path = req.param("path")?;
 
-    let meta = format!("package {:15} version {:8} path {}", package, version, path);
+    let meta = format!("package {package:15} version {version:8} path {path}");
 
     let version_range = VersionReq::parse(&version).map_err(|err| {
-        eprintln!("ERROR {}: {}", meta, err);
+        eprintln!("ERROR {meta}: {err}");
         tide::Error::new(
             StatusCode::BadRequest,
             anyhow!("could not parse version range"),
@@ -64,17 +64,14 @@ async fn deno_redirect(req: Request<()>) -> tide::Result<Redirect<String>> {
 
     let matching_version =
         deno_land::get_first_matching_version(package, &version_range).map_err(|err| {
-            eprintln!("ERROR {}: {}", meta, err);
+            eprintln!("ERROR {meta}: {err}");
             tide::Error::new(
                 StatusCode::NotFound,
                 anyhow!("could not get all currently existing version"),
             )
         })?;
 
-    let url = format!(
-        "https://deno.land/x/{}@{}/{}",
-        package, matching_version, path
-    );
-    println!("{} -> {}", meta, url);
+    let url = format!("https://deno.land/x/{package}@{matching_version}/{path}");
+    println!("{meta} -> {url}");
     Ok(Redirect::temporary(url))
 }

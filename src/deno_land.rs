@@ -18,8 +18,7 @@ pub struct Versions {
 
 pub fn get_existing_versions(package_name: &str) -> Result<Versions> {
     let body = ureq::get(&format!(
-        "https://cdn.deno.land/{}/meta/versions.json",
-        package_name
+        "https://cdn.deno.land/{package_name}/meta/versions.json"
     ))
     .set("User-Agent", USER_AGENT)
     .call()?
