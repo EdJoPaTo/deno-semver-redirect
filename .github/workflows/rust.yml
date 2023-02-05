@@ -33,7 +33,6 @@ jobs:
         os:
           - ubuntu-latest
           - macos-latest
-          - windows-latest
         clippyargs:
           - -D clippy::pedantic -D warnings
         features:
@@ -95,21 +94,6 @@ jobs:
             os: ubuntu-latest
           - triple: aarch64-unknown-linux-gnu
             os: ubuntu-latest
-          - triple: armv7-unknown-linux-gnueabihf
-            os: ubuntu-latest
-          - triple: arm-unknown-linux-gnueabihf
-            os: ubuntu-latest
-
-          - triple: x86_64-apple-darwin
-            os: macos-latest
-          - triple: aarch64-apple-darwin
-            os: macos-latest
-
-          - triple: x86_64-pc-windows-msvc
-            os: windows-latest
-          # https://github.com/briansmith/ring/issues/1167
-          # - triple: aarch64-pc-windows-msvc
-          #   os: windows-latest
     steps:
       - name: Setup Rust
         shell: bash -eux {0}
@@ -151,12 +135,6 @@ jobs:
           LICENSE README.md
           -C target/${{ matrix.triple }}/release/ deno-semver-redirect
           | gzip --best > ${{ env.ARTIFACT_NAME }}.tar.gz
-      - name: Package zip (Windows)
-        if: runner.os == 'Windows'
-        run: >
-          7z a ${{ env.ARTIFACT_NAME }}.zip
-          LICENSE README.md
-          ./target/${{ matrix.triple }}/release/deno-semver-redirect.exe
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
