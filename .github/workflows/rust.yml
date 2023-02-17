@@ -83,6 +83,8 @@ jobs:
     name: Release ${{ matrix.triple }}
     runs-on: ${{ matrix.os }}
     needs: test
+    permissions:
+      contents: write
     strategy:
       fail-fast: false
       matrix:
