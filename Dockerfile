@@ -1,4 +1,4 @@
-FROM docker.io/library/rust:1-bullseye as builder
+FROM docker.io/library/rust:1-bookworm as builder
 WORKDIR /build
 RUN apt-get update \
 	&& apt-get upgrade -y \
@@ -20,7 +20,7 @@ RUN cargo build --release --frozen --offline
 
 
 # Start building the final image
-FROM docker.io/library/debian:bullseye-slim
+FROM docker.io/library/debian:bookworm-slim
 RUN apt-get update \
 	&& apt-get upgrade -y \
 	&& apt-get clean \
