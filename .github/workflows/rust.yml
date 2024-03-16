@@ -3,12 +3,10 @@ name: Test and Build Rust
 on:
   push:
   pull_request:
+  workflow_dispatch:
   schedule:
     # Check if it works with current dependencies
     - cron: '42 2 * * 6' # weekly on Saturday 2:42 UTC
-
-env:
-  RUSTFLAGS: --deny warnings
 
 jobs:
   rustfmt:
@@ -22,10 +20,33 @@ jobs:
       - uses: actions/checkout@v4
       - run: cargo fmt --check --verbose
 
+  clippy:
+    name: Clippy ${{ matrix.toolchain }}
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.toolchain == 'nightly' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        toolchain:
+          - stable
+          - nightly
+    env:
+      RUSTFLAGS: --deny warnings
+    steps:
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.toolchain }}
+          components: clippy
+      - uses: actions/checkout@v4
+      - run: cargo fetch --locked
+      - run: cargo clippy --offline --all-targets
+      - run: cargo doc --offline --no-deps
+
   test:
-    name: Test ${{ matrix.toolchain }} ${{ matrix.os }} ${{ matrix.features }}
+    name: Test ${{ matrix.toolchain }} ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ (matrix.toolchain == 'beta') || (matrix.toolchain == 'nightly') }}
+    continue-on-error: ${{ matrix.toolchain == 'nightly' }}
     strategy:
       fail-fast: false
       matrix:
@@ -34,40 +55,20 @@ jobs:
         os:
           - ubuntu-latest
           - macos-latest
-        clippyargs:
-          - -D clippy::pedantic
-        features:
-          - "" # default features
-        include:
-          # Check future versions and maybe get some glances on soon to be lints
-          - toolchain: beta
-            os: ubuntu-latest
-            features: --all-features
-            clippyargs: -D clippy::pedantic -D clippy::nursery
-          - toolchain: nightly
-            os: ubuntu-latest
-            features: --all-features
-            clippyargs: -D clippy::pedantic
+    env:
+      RUSTFLAGS: --allow unknown-lints --deny warnings
     steps:
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.toolchain }}
-          components: clippy
 
       - uses: actions/checkout@v4
-
-      - name: Fetch dependencies
-        run: cargo fetch --verbose --locked
-
-      - name: Check clippy
-        run: cargo clippy --verbose --locked --all-targets ${{ matrix.features }} -- ${{ matrix.clippyargs }}
-
-      - name: Check docs
-        run: cargo doc --verbose --locked --no-deps ${{ matrix.features }}
+      - run: cargo fetch --locked
+      - run: cargo build --offline --all-targets
 
       - name: Run tests
-        run: cargo test --verbose --locked ${{ matrix.features }}
+        run: cargo test --offline
 
   github-release:
     name: Release ${{ matrix.triple }}
@@ -83,6 +84,8 @@ jobs:
             os: ubuntu-latest
           - triple: aarch64-unknown-linux-gnu
             os: ubuntu-latest
+    env:
+      RUSTFLAGS: --allow unknown-lints --deny warnings
     steps:
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@master
@@ -111,11 +114,10 @@ jobs:
           echo "artifact: $name"
           echo "ARTIFACT_NAME=$name" >> $GITHUB_ENV
 
-      - name: Fetch dependencies
-        run: cargo fetch --verbose --locked
+      - run: cargo fetch --locked
 
       - name: Build
-        run: ${{ runner.os == 'Linux' && 'cross' || 'cargo' }} build --release --verbose --locked --target ${{ matrix.triple }}
+        run: ${{ runner.os == 'Linux' && 'cross' || 'cargo' }} build --release --offline --target ${{ matrix.triple }}
 
       - name: Package tar.gz (*nix)
         if: runner.os != 'Windows'
@@ -126,7 +128,7 @@ jobs:
           | gzip --best > ${{ env.ARTIFACT_NAME }}.tar.gz
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.triple }}
           path: |
@@ -137,7 +139,7 @@ jobs:
 
       - name: Create GitHub release
         if: startsWith(github.ref, 'refs/tags/v')
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: |
             *.deb
