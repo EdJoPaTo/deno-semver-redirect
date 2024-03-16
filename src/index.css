@@ -1,23 +1,23 @@
 html, body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-    line-height: 1.5;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+	line-height: 1.5;
 }
 header, main, footer {
-    margin: 0 auto;
-    padding: 0 1rem;
-    max-width: 800px;
+	margin: 0 auto;
+	padding: 0 1rem;
+	max-width: 800px;
 }
 img {
-    max-width: 100%;
-    display: block;
-    margin: 0 auto;
+	max-width: 100%;
+	display: block;
+	margin: 0 auto;
 }
 a {
-    color: #A00;
+	color: #A00;
 }
 @media (prefers-color-scheme: dark){
-    html, body {
-        color: whitesmoke;
-        background: #222;
-    }
+	html, body {
+		color: whitesmoke;
+		background: #222;
+	}
 }
