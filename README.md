@@ -3,6 +3,9 @@
 Redirect Deno dependencies from [semantic versions](https://semver.org/) to the newest fitting version on [deno.land/x](https://deno.land/x).
 See also this [Deno Issue](https://github.com/denoland/deno_website2/issues/606).
 
+> [!WARNING]
+> <https://deno.land> is being replaced by <https://jsr.io>
+
 ## How to use
 
 Just change the import URL in your Deno Sources:
