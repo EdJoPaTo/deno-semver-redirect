@@ -1,4 +1,4 @@
-# Deno Semver Redirect
+# Deno SemVer Redirect
 
 Redirect Deno dependencies from [semantic versions](https://semver.org/) to the newest fitting version on [deno.land/x](https://deno.land/x).
 See also this [Deno Issue](https://github.com/denoland/deno_website2/issues/606).
@@ -38,7 +38,7 @@ These are all possible as version requirements:
 0.x    := >=0.0.0 <1.0.0
 ```
 
-For the requested versions the [semver crate](https://crates.io/crates/semver) is used.
+For the requested versions the [`semver` crate](https://crates.io/crates/semver) is used.
 For more details check its documentation.
 
 When the dependency you are using is prefixing its versions with `v` (like `v1.2.3`), the version requirement still has to be provided without the `v`.
