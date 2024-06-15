@@ -10,6 +10,7 @@ const USER_AGENT: &str = concat!(
     env!("CARGO_PKG_REPOSITORY"),
 );
 
+#[allow(dead_code)]
 #[derive(Debug, Deserialize)]
 pub struct Versions {
     pub latest: String,
